@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>520 惊喜</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 30%, #f48fb1 60%, #fce4ec 100%);
+    background-size: 400% 400%;
+    animation: bgShift 8s ease infinite;
+    font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+    overflow: hidden;
+  }
+
+  @keyframes bgShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
+  .hearts {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .heart {
+    position: absolute;
+    font-size: 20px;
+    opacity: 0.35;
+    animation: floatUp 6s ease-in infinite;
+  }
+  @keyframes floatUp {
+    0%   { transform: translateY(105vh) scale(0) rotate(0deg); opacity: 0; }
+    15%  { opacity: 0.4; }
+    50%  { opacity: 0.3; }
+    85%  { opacity: 0.1; }
+    100% { transform: translateY(-10vh) scale(1.2) rotate(360deg); opacity: 0; }
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    width: 90%;
+    max-width: 440px;
+  }
+
+  .cover {
+    background: rgba(255,255,255,0.75);
+    backdrop-filter: blur(12px);
+    border-radius: 24px;
+    padding: 50px 36px;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(180,60,90,0.18), 0 0 0 1px rgba(255,255,255,0.5);
+    transition: transform 0.5s ease, opacity 0.5s ease;
+  }
+  .cover.hidden {
+    transform: scale(0.92);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .cover .icon {
+    font-size: 64px;
+    margin-bottom: 16px;
+    animation: bounce 1.2s ease infinite;
+  }
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+  }
+
+  .cover h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #d81b60;
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+  }
+  .cover .sub {
+    font-size: 15px;
+    color: #c2185b;
+    opacity: 0.75;
+    margin-bottom: 36px;
+  }
+
+  .cover button {
+    border: none;
+    background: linear-gradient(135deg, #f06292, #e91e63);
+    color: #fff;
+    font-size: 18px;
+    font-weight: 600;
+    padding: 14px 48px;
+    border-radius: 50px;
+    cursor: pointer;
+    letter-spacing: 2px;
+    box-shadow: 0 8px 28px rgba(233,30,99,0.4);
+    transition: transform 0.2s, box-shadow 0.2s;
+    outline: none;
+  }
+  .cover button:hover {
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 12px 36px rgba(233,30,99,0.5);
+  }
+  .cover button:active {
+    transform: scale(0.97);
+  }
+
+  .reveal {
+    display: none;
+    background: rgba(255,255,255,0.78);
+    backdrop-filter: blur(12px);
+    border-radius: 24px;
+    padding: 30px 28px 36px;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(180,60,90,0.18), 0 0 0 1px rgba(255,255,255,0.5);
+    animation: cardIn 0.7s ease;
+  }
+  .reveal.show {
+    display: block;
+  }
+
+  @keyframes cardIn {
+    0%   { transform: scale(0.85) translateY(24px); opacity: 0; }
+    100% { transform: scale(1) translateY(0); opacity: 1; }
+  }
+
+  .reveal .photo-frame {
+    width: 100%;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 6px 30px rgba(180,40,80,0.2);
+    margin-bottom: 22px;
+  }
+  .reveal img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 18px;
+  }
+
+  .reveal .caption {
+    font-size: 22px;
+    font-weight: 700;
+    color: #d81b60;
+    letter-spacing: 1px;
+    animation: fadeInUp 0.6s 0.2s ease both;
+  }
+  .reveal .caption .flower-emoji {
+    display: inline-block;
+    animation: sway 1.5s ease-in-out infinite;
+  }
+  @keyframes sway {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(12deg); }
+    75% { transform: rotate(-10deg); }
+  }
+  @keyframes fadeInUp {
+    0% { opacity: 0; transform: translateY(14px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+
+  .sparkles {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 2;
+  }
+  .spark {
+    position: absolute;
+    width: 6px; height: 6px;
+    background: #fff;
+    border-radius: 50%;
+    animation: sparkPop 0.9s ease-out forwards;
+  }
+  @keyframes sparkPop {
+    0%   { transform: scale(0); opacity: 1; }
+    100% { transform: scale(1.6); opacity: 0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hearts" id="hearts"></div>
+<div class="sparkles" id="sparkles"></div>
+
+<div class="container">
+  <div class="cover" id="cover">
+    <div class="icon">💌</div>
+    <h1>你收到一份 520 惊喜</h1>
+    <p class="sub">请点击下方按钮开启</p>
+    <button id="openBtn">💝 开 启 💝</button>
+  </div>
+
+  <div class="reveal" id="reveal">
+    <div class="photo-frame">
+      <img src="flower.jpg" alt="奶龙送你一束花">
+    </div>
+    <p class="caption">
+      <span class="flower-emoji">🌸</span>
+      奶龙送你一束花
+      <span class="flower-emoji">🌸</span>
+    </p>
+  </div>
+</div>
+
+<script>
+  const cover = document.getElementById('cover');
+  const reveal = document.getElementById('reveal');
+  const openBtn = document.getElementById('openBtn');
+  const heartsEl = document.getElementById('hearts');
+  const sparklesEl = document.getElementById('sparkles');
+
+  const heartEmojis = ['💗','💖','💕','💝','💓','🩷','❤️','💐'];
+  for (let i = 0; i < 22; i++) {
+    const h = document.createElement('span');
+    h.className = 'heart';
+    h.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+    h.style.left = Math.random() * 94 + '%';
+    h.style.fontSize = (14 + Math.random() * 22) + 'px';
+    h.style.animationDelay = Math.random() * 8 + 's';
+    h.style.animationDuration = (4 + Math.random() * 7) + 's';
+    heartsEl.appendChild(h);
+  }
+
+  function sparkBurst(x, y) {
+    for (let i = 0; i < 18; i++) {
+      const s = document.createElement('span');
+      s.className = 'spark';
+      s.style.left = x + 'px';
+      s.style.top = y + 'px';
+      const angle = (Math.PI * 2 * i) / 18;
+      const dist = 40 + Math.random() * 50;
+      s.style.animation = 'none';
+      s.offsetHeight;
+      s.style.animation = `sparkPop 0.9s ease-out forwards`;
+      s.style.transform = `translate(${Math.cos(angle) * dist}px, ${Math.sin(angle) * dist}px)`;
+      sparklesEl.appendChild(s);
+      setTimeout(() => s.remove(), 1000);
+    }
+  }
+
+  openBtn.addEventListener('click', () => {
+    const btnRect = openBtn.getBoundingClientRect();
+    sparkBurst(btnRect.left + btnRect.width/2, btnRect.top + btnRect.height/2);
+
+    cover.classList.add('hidden');
+    setTimeout(() => {
+      reveal.classList.add('show');
+      const revealRect = reveal.getBoundingClientRect();
+      sparkBurst(revealRect.left + revealRect.width/2, revealRect.top + revealRect.height/2);
+    }, 400);
+  });
+</script>
+</body>
+</html>
